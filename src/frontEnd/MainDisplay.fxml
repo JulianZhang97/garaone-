@@ -1,116 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
-  <children>
-    <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <items>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-              <items>
-                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
-                     <children>
-                        <Button mnemonicParsing="false" text="Button" />
-                  <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Car 1 Selector" textAlignment="CENTER" wrapText="false">
-                    <font>
-                      <Font size="18.0" fx:id="x1" />
-                    </font>
-                    <textFill>
-                      <Color blue="0.624" green="0.624" red="0.624" fx:id="x2" />
-                    </textFill>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.MainDisplayController">
+   <center>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" BorderPane.alignment="CENTER">
+        <items>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="car1" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="1 Make Model " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                     <textFill>
+                        <Color blue="0.624" green="0.624" red="0.624" />
+                     </textFill>
                   </Label>
-                        <ComboBox prefWidth="150.0" />
-                        <ComboBox prefWidth="150.0" />
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                     <children>
-                        <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Car 2 Selector" textAlignment="CENTER" wrapText="false">
-                           <font>
-                              <Font size="18.0" fx:id="x12" />
-                           </font>
-                           <textFill>
-                              <Color blue="0.624" green="0.624" red="0.624" fx:id="x22" />
-                           </textFill>
-                        </Label>
-                        <Button mnemonicParsing="false" text="Button" />
-                        <ComboBox prefWidth="150.0" />
-                        <ComboBox prefWidth="150.0" />
-                     </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
-            <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="800.0" prefWidth="955.0">
-              <items>
-                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
-                     <children>
-                        <Canvas height="50.0" layoutX="100.0" layoutY="302.0" width="800.0" AnchorPane.bottomAnchor="23.0" />
-                        <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Maserati GranTurismo" textAlignment="CENTER" wrapText="false">
-                           <font>
-                              <Font size="48.0" fx:id="x11" />
-                           </font>
-                           <textFill>
-                              <Color blue="0.624" green="0.624" red="0.624" fx:id="x21" />
-                           </textFill>
-                        </Label>
-                        <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Drive: RWD" textAlignment="CENTER" wrapText="false">
-                           <font>
-                              <Font size="24.0" fx:id="x111" />
-                           </font>
-                           <textFill>
-                              <Color blue="0.624" green="0.624" red="0.624" fx:id="x211" />
-                           </textFill>
-                        </Label>
-                        <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Transmission: 6 Speed Auto" textAlignment="CENTER" wrapText="false">
-                           <font>
-                              <Font size="24.0" fx:id="x1111" />
-                           </font>
-                           <textFill>
-                              <Color blue="0.624" green="0.624" red="0.624" fx:id="x2111" />
-                           </textFill>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
-                     <children>
-                        <Canvas height="50.0" layoutX="100.0" layoutY="43.0" width="800.0" AnchorPane.bottomAnchor="303.0" AnchorPane.topAnchor="23.0" />
-                        <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Audi S5" textAlignment="CENTER" wrapText="false">
-                           <font>
-                              <Font size="48.0" fx:id="x111" />
-                           </font>
-                           <textFill>
-                              <Color blue="0.624" green="0.624" red="0.624" fx:id="x211" />
-                           </textFill>
-                        </Label>
-                        <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Drive: AWD" textAlignment="CENTER" wrapText="false">
-                           <font>
-                              <Font size="24.0" fx:id="x1111" />
-                           </font>
-                           <textFill>
-                              <Color blue="0.624" green="0.624" red="0.624" fx:id="x2111" />
-                           </textFill>
-                        </Label>
-                        <Label alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Transmission: 6 Speed Auto" textAlignment="CENTER" wrapText="false">
-                           <font>
-                              <Font size="24.0" fx:id="x11111" />
-                           </font>
-                           <textFill>
-                              <Color blue="0.624" green="0.624" red="0.624" fx:id="x21111" />
-                           </textFill>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
-      </items>
-    </SplitPane>
-  </children>
-</VBox>
+                  <Label fx:id="car1Trans" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Transmission: X Speed Manual" textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <textFill>
+                        <Color blue="0.624" green="0.624" red="0.624" />
+                     </textFill>
+                  </Label>
+                  <Label fx:id="car1Drive" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Drive: XWD" textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <textFill>
+                        <Color blue="0.624" green="0.624" red="0.624" />
+                     </textFill>
+                  </Label>
+                  <Canvas fx:id="car1Status" height="50.0" width="800.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+               </children>
+            </GridPane>
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label fx:id="car2" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="1 Make Model " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                     <textFill>
+                        <Color blue="0.624" green="0.624" red="0.624" />
+                     </textFill>
+                  </Label>
+                  <Label fx:id="car2Trans" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Transmission: X Speed Manual" textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <textFill>
+                        <Color blue="0.624" green="0.624" red="0.624" />
+                     </textFill>
+                  </Label>
+                  <Label fx:id="car2Drive" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Drive: XWD" textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <textFill>
+                        <Color blue="0.624" green="0.624" red="0.624" />
+                     </textFill>
+                  </Label>
+                  <Canvas fx:id="car2Status" height="50.0" width="800.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+               </children>
+            </GridPane>
+        </items>
+      </SplitPane>
+   </center>
+   <top>
+      <Label fx:id="winnerStatus" text="WINNER IS: Make Model @99.9 seconds" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+   </top>
+   <left>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Car 1 Selector">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin></Label>
+            <ComboBox fx:id="car1Make" promptText="Select Make" />
+            <ComboBox fx:id="car1Model" promptText="Select Model" />
+            <Label text="Car 2 Selector">
+               <VBox.margin>
+                  <Insets top="150.0" />
+               </VBox.margin></Label>
+            <ComboBox fx:id="car2Make" promptText="Select Make" />
+            <ComboBox fx:id="car2Model" promptText="Select Model" />
+            <Button fx:id="startButton" alignment="center" mnemonicParsing="false" text="RACE" />
+            <Button fx:id="resetButton" alignment="center" mnemonicParsing="false" text="Reset" />
+         </children>
+      </VBox>
+   </left>
+</BorderPane>
