@@ -108,17 +108,20 @@
          <children>
             <Label text="Car 1 Selector">
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets />
                </VBox.margin></Label>
             <ComboBox fx:id="car1Make" promptText="Select Make" />
             <ComboBox fx:id="car1Model" promptText="Select Model" />
             <Label text="Car 2 Selector">
                <VBox.margin>
-                  <Insets top="150.0" />
+                  <Insets />
                </VBox.margin></Label>
             <ComboBox fx:id="car2Make" promptText="Select Make" />
             <ComboBox fx:id="car2Model" promptText="Select Model" />
-            <Button fx:id="startButton" alignment="center" mnemonicParsing="false" text="RACE" />
+            <Button fx:id="startButton" alignment="center" mnemonicParsing="false" text="RACE">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Button>
             <Button fx:id="resetButton" alignment="center" mnemonicParsing="false" text="Reset" />
          </children>
       </VBox>

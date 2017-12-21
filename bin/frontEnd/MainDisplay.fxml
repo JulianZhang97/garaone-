@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -103,15 +104,24 @@
          </font></Label>
    </top>
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox BorderPane.alignment="CENTER">
          <children>
-            <Label text="Car 1 Selector" />
+            <Label text="Car 1 Selector">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Label>
             <ComboBox fx:id="car1Make" promptText="Select Make" />
             <ComboBox fx:id="car1Model" promptText="Select Model" />
-            <Label text="Car 2 Selector" />
+            <Label text="Car 2 Selector">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Label>
             <ComboBox fx:id="car2Make" promptText="Select Make" />
             <ComboBox fx:id="car2Model" promptText="Select Model" />
-            <Button fx:id="startButton" alignment="center" mnemonicParsing="false" text="RACE" />
+            <Button fx:id="startButton" alignment="center" mnemonicParsing="false" text="RACE">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Button>
             <Button fx:id="resetButton" alignment="center" mnemonicParsing="false" text="Reset" />
          </children>
       </VBox>

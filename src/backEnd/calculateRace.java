@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 
 /**
  * Calculates the race positions of this car at 100ms intervals. Returns an array of each position (in meters)
@@ -26,8 +28,8 @@ public class calculateRace {
 	
 	boolean complete;
 	
-	final Lock lock;
-	final Condition done;
+//	public final Lock lock;
+//	public final Condition done;
 	
 	public calculateRace(Car car){
 		this.progress = 0.0;
@@ -35,20 +37,30 @@ public class calculateRace {
 		
 		carRace = new ArrayList<Double>();
 		
-		this.lock = new ReentrantLock();
-		this.done = lock.newCondition();
+		//this.lock = new ReentrantLock();
+		//this.done = lock.newCondition();
 	}
 	
 	public void startRace(){
-			
-			Timer t = new Timer(); 
 		
-			t.scheduleAtFixedRate(new TimerTask(){
+		while(progress != 400){
+			double newProgress = 400/(carTime * 10);
+			if(progress + newProgress > 400){
+				progress = 400;
+			}
+			else{
+				progress += newProgress;
+			}	
+			carRace.add(progress);
+		}
+		/*   
+		Timer t = new Timer(); 
+		
+		   t.scheduleAtFixedRate(new TimerTask(){
 				public void run(){
 					if(progress == 400){
 						lock.lock();
 						t.cancel();
-					
 					
 						done.signal();
 						lock.unlock();
@@ -64,18 +76,16 @@ public class calculateRace {
 						}	
 						carRace.add(progress);
 					
-						//System.out.println(carRace.size());
-						//System.out.println(carRace);
-						//System.out.println(progress);
 						}
 					}
 				}, 0, 100);
+			*/
 	}
 
 	public List<Double> getCarRace(){
 		return carRace;
 	}
-	
+/*
 	public static void main(String[] args) throws InterruptedException {
 		Car testCar = new Car.carBuilder().id(1).carMake("Audi").carModel("A4")
 		.carYear(2001).carDrive("AWD").carTrans("5M").carAccel(7.8)
@@ -101,4 +111,5 @@ public class calculateRace {
 			race.lock.unlock();
 		}
 	}
+	*/
 }
