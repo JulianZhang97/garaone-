@@ -4,13 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import backEnd.Car;
 import backEnd.CarDatabase;
 import backEnd.calculateRace;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -71,10 +68,18 @@ public class MainDisplayController extends Control{
 	@FXML
 	Canvas car2Status;
 	
+	@FXML
+	Label car1StatusInfo;
+	
+	@FXML
+	Label car2StatusInfo;
+	
 	Car vehicle1;
 	Car vehicle2;
 	
 	CarDatabase db;
+	
+	Car winner;
 	
 	public void initialize() {
 		
@@ -109,9 +114,9 @@ public class MainDisplayController extends Control{
 				
 					vehicle1 = db.getCar(car1Brand, car1Name);
 		
-					car1.setText(vehicle1.getYear() + " " + vehicle1.getMake() + " " + vehicle1.getModel());
-					car1Trans.setText(vehicle1.getTrans());
-					car1Drive.setText(vehicle1.getDrive());
+					car1.setText(car1.getText() + vehicle1.getYear() + " " + vehicle1.getMake() + " " + vehicle1.getModel());
+					car1Trans.setText(car1Trans.getText() + vehicle1.getTrans());
+					car1Drive.setText(car1Drive.getText() + vehicle1.getDrive());
 				}
 			}
 		});
@@ -127,17 +132,18 @@ public class MainDisplayController extends Control{
 					String car2Name = car2Model.getValue();
 				
 					vehicle2 = db.getCar(car2Brand, car2Name);
+					
 				
-					car2.setText(vehicle2.getMake() + " " + vehicle2.getModel());
-					car2Trans.setText(vehicle2.getTrans());
-					car2Drive.setText(vehicle2.getDrive());
+					car2.setText(car2.getText() + vehicle2.getYear() + " " + vehicle2.getMake() + " " + vehicle2.getModel());
+					car2Trans.setText(car2Trans.getText() + vehicle2.getTrans());
+					car2Drive.setText(car2Drive.getText() + vehicle2.getDrive());
 				}
 			}
-		});
-		
+		});	
 		drawInitialState(car1Status);
 		drawInitialState(car2Status);
-	}
+	}	
+	
 	
 	private void loadMakes(MouseEvent e, Integer select) {
 
@@ -166,6 +172,7 @@ public class MainDisplayController extends Control{
 	private void drawInitialState(Canvas canvas){
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
+		gc.clearRect(0, 0, 800, 50);
 		gc.strokeRoundRect(0, 0, 800, 50, 10, 10);
 	}
 
@@ -180,8 +187,6 @@ public class MainDisplayController extends Control{
 		
 		GraphicsContext gc = car1Status.getGraphicsContext2D();
 		GraphicsContext gc2 = car2Status.getGraphicsContext2D();
-		
-		
 		
 		calculateRace car1Race = new calculateRace(vehicle1);
 		car1Race.startRace();
@@ -199,29 +204,78 @@ public class MainDisplayController extends Control{
 		t.scheduleAtFixedRate(new TimerTask(){
 			public void run(){
 				
+				//If car 1 wins, set its winner status
+				if(!car1Check.hasNext() && car2Check.hasNext()){
+					winner = vehicle1;
+					
+				}
+				//Else if car 2 wins, set its winner status
+				if(car1Check.hasNext() && !car2Check.hasNext()){
+					winner = vehicle2;
+				}
+				
 				if(!car1Check.hasNext() && !car2Check.hasNext()){
 					t.cancel();
+					Platform.runLater(new Runnable() {
+		                public void run() {
+		                	winnerStatus.setText(winnerStatus.getText() + " " + winner.getMake() + " " + winner.getModel() + " @ " + winner.getQuarterTime() + " seconds");
+		                 }
+		            });
 				}
 				
 				if(car1Check.hasNext()){
 					Double nextPos = car1Check.next();
-					gc.setStroke(Color.BLACK);
-					gc.strokeRoundRect(0, 0, 800, 50, 10, 10);
 					gc.setFill(Color.GREEN);
 					gc.fillRect(0, 0, nextPos * 2, 50);
+					Platform.runLater(new Runnable() {
+		                public void run() {
+		                	car1StatusInfo.setText("Race Progress: " + nextPos.intValue() + "/400m");
+		                 }
+		            });
+					
 				}
-				
 				if(car2Check.hasNext()){
 					Double nextPos2 = car2Check.next();
-					gc2.setStroke(Color.BLACK);
-					gc2.strokeRoundRect(0, 0, 800, 50, 10, 10);
 					gc2.setFill(Color.GREEN);
 					gc2.fillRect(0, 0, nextPos2 * 2, 50);
+					Platform.runLater(new Runnable() {
+		                public void run() {
+		                	car2StatusInfo.setText("Race Progress: " + nextPos2.intValue() + "/400m");
+		                 }
+		            });
 					}
 				}
 			}, 0, 100);	
 	}
 	
 	private void resetRace(MouseEvent e) {
+		
+		drawInitialState(car1Status);
+		drawInitialState(car2Status);
+		
+		car1Make.getItems().clear();
+		car1Model.getItems().clear();
+		car2Make.getItems().clear();
+		car2Model.getItems().clear();
+		
+		vehicle1 = null;
+		vehicle2 = null;
+		
+		initialSetup();
+	}
+	
+	private void initialSetup(){
+		car1.setText(car1.getText().substring(0, 7));
+		car1Trans.setText(car1Trans.getText().substring(0, 14));
+		car1Drive.setText(car1Drive.getText().substring(0, 7));
+		
+		car2.setText(car2.getText().substring(0, 7));
+		car2Trans.setText(car2Trans.getText().substring(0, 14));
+		car2Drive.setText(car2Drive.getText().substring(0, 7));
+		
+		winnerStatus.setText("Winner is: ");
+		
+		car1StatusInfo.setText("Race Progress: 0/400m");
+		car2StatusInfo.setText("Race Progress: 0/400m");
 	}
 }
