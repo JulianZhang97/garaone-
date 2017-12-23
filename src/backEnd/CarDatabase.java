@@ -20,10 +20,11 @@ public class CarDatabase {
 		}
 
 		try {
-			String url = "jdbc:postgresql:cargara?currentSchema=carperf";
-			String username = "postgres";
-			String password = "user";
+			String url = "jdbc:postgresql://baasu.db.elephantsql.com:5432/djutedbs?currentSchema=carperf";
+			String username = "djutedbs";
+			String password = "rops3VUH3ObTAd3CGxjYBHSwVz1YGw1O";
 			connection = DriverManager.getConnection(url, username, password);
+			 
 			return true;
 		} catch (SQLException se) {
 			System.err.println("SQL Exception." + "<Message>: " + se.getMessage());
@@ -125,7 +126,6 @@ public class CarDatabase {
 		}
 		return false;
 	}
-	
 	/*
 	public static void main(String[] args){
 		try {
