@@ -9,12 +9,7 @@ public class CarDatabase {
 	public Connection connection;
 	
 	public CarDatabase() throws ClassNotFoundException {
-
-		try {
-			Class.forName("org.postgresql.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println("Failed to find the JDBC driver");
-		}
+		Class.forName("org.postgresql.Driver");		
 	}
 	
 	public boolean connectDB() {

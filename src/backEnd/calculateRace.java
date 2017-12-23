@@ -9,7 +9,7 @@ import java.util.List;
  * @author zhang
  *
  */
-public class calculateRace {
+public class CalculateRace {
 	//The quarter mile time for the car
 	private double carTime;
 	
@@ -24,7 +24,7 @@ public class calculateRace {
 //	public final Lock lock;
 //	public final Condition done;
 	
-	public calculateRace(Car car){
+	public CalculateRace(Car car){
 		this.progress = 0.0;
 		this.carTime = car.getQuarterTime();
 		

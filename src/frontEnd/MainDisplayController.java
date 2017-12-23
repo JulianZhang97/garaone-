@@ -4,9 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import backEnd.CalculateRace;
 import backEnd.Car;
 import backEnd.CarDatabase;
-import backEnd.calculateRace;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -188,11 +189,11 @@ public class MainDisplayController extends Control{
 		GraphicsContext gc = car1Status.getGraphicsContext2D();
 		GraphicsContext gc2 = car2Status.getGraphicsContext2D();
 		
-		calculateRace car1Race = new calculateRace(vehicle1);
+		CalculateRace car1Race = new CalculateRace(vehicle1);
 		car1Race.startRace();
 		List<Double> car1Results = car1Race.getCarRace();
 		
-		calculateRace car2Race = new calculateRace(vehicle2);
+		CalculateRace car2Race = new CalculateRace(vehicle2);
 		car2Race.startRace();
 		List<Double> car2Results = car2Race.getCarRace();
 		
