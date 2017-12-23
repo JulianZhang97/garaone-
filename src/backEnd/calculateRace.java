@@ -2,14 +2,7 @@ package backEnd;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
  * Calculates the race positions of this car at 100ms intervals. Returns an array of each position (in meters)
@@ -53,33 +46,6 @@ public class calculateRace {
 			}	
 			carRace.add(progress);
 		}
-		/*   
-		Timer t = new Timer(); 
-		
-		   t.scheduleAtFixedRate(new TimerTask(){
-				public void run(){
-					if(progress == 400){
-						lock.lock();
-						t.cancel();
-					
-						done.signal();
-						lock.unlock();
-					}
-					else{
-					
-						double newProgress = 400/(carTime * 10);
-						if(progress + newProgress > 400){
-							progress = 400;
-						}
-						else{
-							progress += newProgress;
-						}	
-						carRace.add(progress);
-					
-						}
-					}
-				}, 0, 100);
-			*/
 	}
 
 	public List<Double> getCarRace(){
