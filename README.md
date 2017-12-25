@@ -1,4 +1,10 @@
-Note: Demo images of program are available under the demos folder.
+Welcome to GaraOne!
+
+This is a simplified vehicle simulation program, allowing the user to select two vehicles, and compare their performance over a quarter-mile race in real-time. 
+
+Credit to https://www.zeroto60times.com/ for all vehicle information and performance data. 
+
+Feel free to run GaraOne by following the quick setup below, or view demo images of the program in action in the demos folder.
 
 
 GaraOne Setup:
