@@ -1,3 +1,6 @@
+Note: Demo images of program are available under the demos folder.
+
+
 GaraOne Setup:
 
 1. You MUST have the PostgreSQL JDBC driver included (in the lib folder) installed on the system. Add the .jar file 
