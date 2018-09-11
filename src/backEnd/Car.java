@@ -14,44 +14,44 @@ public class Car {
 		private double quarterMileTime;
 		private double quarterMileSpeed;
 		
-		public carBuilder id(Integer id){
+		carBuilder id(Integer id){
 			this.id = id;
 			return this;
 		}
-		public carBuilder carMake(String make){
+		carBuilder carMake(String make){
 			this.make = make;
 			return this;
 		}
-		public carBuilder carModel(String model){
+		carBuilder carModel(String model){
 			this.model = model;
 			return this;
 		}
-		public carBuilder carYear(Integer year){
+		carBuilder carYear(Integer year){
 			this.year = year;
 			return this;
 		}
 		
-		public carBuilder carDrive(String drive){
+		carBuilder carDrive(String drive){
 			this.drive = drive;
 			return this;
 		}
-		public carBuilder carTrans(String transmission){
+		carBuilder carTrans(String transmission){
 			this.transmission = transmission;
 			return this;
 		}
-		public carBuilder carAccel(double accel){
+		carBuilder carAccel(double accel){
 			this.accel = accel;
 			return this;
 		}
-		public carBuilder carqMileTime(double quarterMileTime){
+		carBuilder carqMileTime(double quarterMileTime){
 			this.quarterMileTime = quarterMileTime;
 			return this;
 		}
-		public carBuilder carqMileSpeed(double quarterMileSpeed){
+		carBuilder carqMileSpeed(double quarterMileSpeed){
 			this.quarterMileSpeed = quarterMileSpeed;
 			return this;
 		}
-		public Car build(){
+		Car build(){
 			return new Car(this);
 		}
 	}

@@ -12,7 +12,7 @@ public class CarDatabase {
 		Class.forName("org.postgresql.Driver");		
 	}
 	
-	public boolean connectDB() {
+	public void connectDB() {
 		try {
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
@@ -24,13 +24,11 @@ public class CarDatabase {
 			String username = "djutedbs";
 			String password = "rops3VUH3ObTAd3CGxjYBHSwVz1YGw1O";
 			connection = DriverManager.getConnection(url, username, password);
-			 
-			return true;
+
 		} catch (SQLException se) {
 			System.err.println("SQL Exception." + "<Message>: " + se.getMessage());
 		}
 
-		return false;
 	}
 	
 	public List<String> displayBrands(){
