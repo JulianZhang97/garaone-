@@ -124,30 +124,4 @@ public class CarDatabase {
 		}
 		return false;
 	}
-	/*
-	public static void main(String[] args){
-		try {
-            CarDatabase database = new CarDatabase();
-            database.connectDB();
-            //List<String> allBrands = database.displayBrands();
-            //for(String brand: allBrands){
-            //	System.out.println(brand);
-            //}
-            //List<String> brandModels = database.displayModels("Mercedes-Benz");
-            //for(String model: brandModels){
-            //    	System.out.println(model);
-            //    }
-            Car myCar = database.getCar("Aston Martin", "DB11");
-            String carTrans = myCar.getTrans();
-            String carDrive = myCar.getDrive();
-            Double carAccel = myCar.getAccel();
-            
-            System.out.println(carTrans + carDrive + carAccel);
-            
-            database.disconnectDB();
-		 } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-		 }
-	}
-	*/
 }

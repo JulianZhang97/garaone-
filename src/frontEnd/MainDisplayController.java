@@ -1,10 +1,5 @@
 package frontEnd;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import backEnd.CalculateRace;
 import backEnd.Car;
 import backEnd.CarDatabase;
@@ -12,12 +7,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainDisplayController extends Control{
@@ -59,10 +56,11 @@ public class MainDisplayController extends Control{
 	
 	private Car vehicle1;
 	private Car vehicle2;
-	
 	private CarDatabase db;
 	
 	private Car winner;
+
+	private Timer t;
 	
 	public void initialize() {
 		db = null;
@@ -72,33 +70,39 @@ public class MainDisplayController extends Control{
 			e1.printStackTrace();
 		}
 		db.connectDB();
-		
-		vehicle1 = null;
-		vehicle2 = null;
-		
-		startButton.setOnMousePressed(e2 -> startRace());
-		resetButton.setOnMousePressed(e1 -> resetRace());
-		
-		car1Make.setOnMousePressed((MouseEvent e) -> loadMakes(car1Make, car1Model));
-		car2Make.setOnMousePressed((MouseEvent e) -> loadMakes(car2Make, car2Model));
-		car1Model.setOnMousePressed((MouseEvent e) -> loadModels(car1Make, car1Model));
-		car2Model.setOnMousePressed((MouseEvent e) -> loadModels(car2Make, car2Model));
-		
-		car1Model.valueProperty().addListener((arg0, arg1, arg2) -> {
-		    if(car1Make.getValue() != null && car1Model.getValue() != null){
+
+		initializeGUI();
+	}
+
+
+	private void initializeGUI(){
+        vehicle1 = null;
+        vehicle2 = null;
+
+        startButton.setOnMousePressed(e2 -> startRace());
+        resetButton.setOnMousePressed(e1 -> resetRace());
+
+        car1Make.setOnMousePressed((MouseEvent e) -> loadMakes(car1Make, car1Model));
+        car2Make.setOnMousePressed((MouseEvent e) -> loadMakes(car2Make, car2Model));
+        car1Model.setOnMousePressed((MouseEvent e) -> loadModels(car1Make, car1Model));
+        car2Model.setOnMousePressed((MouseEvent e) -> loadModels(car2Make, car2Model));
+
+        car1Model.valueProperty().addListener((arg0, arg1, arg2) -> {
+            if(car1Make.getValue() != null && car1Model.getValue() != null){
                 vehicle1 = db.getCar(car1Make.getValue(), car1Model.getValue());
                 setCar(vehicle1, car1Make.getValue(), car1Model.getValue(), car1, car1Trans, car1Drive);
             }
-		});
-		car2Model.valueProperty().addListener((arg0, arg1, arg2) -> {
+        });
+        car2Model.valueProperty().addListener((arg0, arg1, arg2) -> {
             if(car2Make.getValue() != null && car2Model.getValue() != null){
                 vehicle2 = db.getCar(car2Make.getValue(), car2Model.getValue());
                 setCar(vehicle2, car2Make.getValue(), car2Model.getValue(), car2, car2Trans, car2Drive);
             }
         });
-		drawInitialState(car1Status);
-		drawInitialState(car2Status);
-	}
+        drawInitialState(car1Status);
+        drawInitialState(car2Status);
+    }
+
 
 	private void setCar(Car curVehicle, String carBrand, String carName, Label carNameLabel, Label carTrans, Label carDrive){
         carNameLabel.setText(carNameLabel.getText() + curVehicle.getYear() + " " + carBrand + " " + carName);
@@ -112,17 +116,20 @@ public class MainDisplayController extends Control{
 			carMake.getItems().addAll(db.displayBrands());
 	}
 
+
 	private void loadModels(ComboBox<String> carMake, ComboBox<String> carModel) {
 			carModel.getItems().clear();
 			carModel.getItems().addAll(db.displayModels(carMake.getValue()));
 	}
-	
+
+
 	private void drawInitialState(Canvas canvas){
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		gc.clearRect(0, 0, 800, 50);
 		gc.strokeRoundRect(0, 0, 800, 50, 10, 10);
 	}
+
 
 	private void startRace() {
 		if(vehicle1 == null || vehicle2 == null){
@@ -136,22 +143,29 @@ public class MainDisplayController extends Control{
 		GraphicsContext gc = car1Status.getGraphicsContext2D();
 		GraphicsContext gc2 = car2Status.getGraphicsContext2D();
 		
-		CalculateRace car1Race = new CalculateRace(vehicle1);
-		car1Race.startRace();
-		List<Double> car1Results = car1Race.getCarRace();
+		CalculateRace car1RaceResults = new CalculateRace(vehicle1);
+        car1RaceResults.calculateRaceResults();
+		List<Double> car1Results = car1RaceResults.getRaceResults();
 		
-		CalculateRace car2Race = new CalculateRace(vehicle2);
-		car2Race.startRace();
-		List<Double> car2Results = car2Race.getCarRace();
+		CalculateRace car2RaceResults = new CalculateRace(vehicle2);
+		car2RaceResults.calculateRaceResults();
+		List<Double> car2Results = car2RaceResults.getRaceResults();
 		
 		Iterator<Double> car1Check = car1Results.listIterator();
 		Iterator<Double> car2Check = car2Results.listIterator(); 
 		
-		Timer t = new Timer();
+		t = new Timer();
 		t.scheduleAtFixedRate(new TimerTask(){
 			public void run(){
-                if(car1Check.hasNext()){ carCheck(car1Check, gc, car1StatusInfo);}
-                if(car2Check.hasNext()){ carCheck(car2Check, gc2, car2StatusInfo);}
+			    car1Make.setDisable(true);
+			    car1Model.setDisable(true);
+			    car2Make.setDisable(true);
+			    car2Model.setDisable(true);
+			    startButton.setDisable(true);
+
+                if(car1Check.hasNext()){ drawRaceProgress(car1Check, gc, car1StatusInfo);}
+                if(car2Check.hasNext()){ drawRaceProgress(car2Check, gc2, car2StatusInfo);}
+
 				
 				//If car 1 wins, set its winner status
 				if(!car1Check.hasNext() && car2Check.hasNext()){winner = vehicle1; }
@@ -160,19 +174,38 @@ public class MainDisplayController extends Control{
 				
 				if(!car1Check.hasNext() && !car2Check.hasNext()){
 					t.cancel();
-					Platform.runLater(() -> winnerStatus.setText(winnerStatus.getText() + " " + winner.getMake() + " " + winner.getModel() + " @ " + winner.getQuarterTime() + " seconds"));
+					Platform.runLater(() ->
+                    {
+                        String winnerInfo =  winner.getMake() + " " + winner.getModel() + " " + winner.getQuarterTime() + " seconds @ " + winner.getQuarterSpeed() + " mph";
+                        winnerStatus.setText(winnerStatus.getText() + " " + winnerInfo);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, winnerInfo, ButtonType.OK);
+                        alert.setHeaderText(winner.getMake() + " " + winner.getModel() + " has won!");
+                        alert.showAndWait();
+                    });
 				}
 				}}, 0, 100);
 	}
 
-	private void carCheck(Iterator<Double> carCheck, GraphicsContext gc, Label carStatusInfo){
+
+	private void drawRaceProgress(Iterator<Double> carCheck, GraphicsContext gc, Label carStatusInfo){
 	    Double nextPos = carCheck.next();
         gc.setFill(Color.GREEN);
         gc.fillRect(0, 0, nextPos * 2, 50);
         Platform.runLater(() -> carStatusInfo.setText("Race Progress: " + nextPos.intValue() + "/400m"));
     }
-	
+
+
+    //TODO: Fix this to be less buggy
 	private void resetRace() {
+	    if(t != null){
+	        t.cancel();
+        }
+
+        car1Make.setDisable(false);
+        car1Model.setDisable(false);
+        car2Make.setDisable(false);
+        car2Model.setDisable(false);
+        startButton.setDisable(false);
 		
 		drawInitialState(car1Status);
 		drawInitialState(car2Status);
@@ -185,18 +218,23 @@ public class MainDisplayController extends Control{
 		vehicle2 = null;
 		initialSetup();
 	}
-	
+
+
 	private void initialSetup(){
-		car1.setText(car1.getText().substring(0, 7));
-		car1Trans.setText(car1Trans.getText().substring(0, 14));
-		car1Drive.setText(car1Drive.getText().substring(0, 7));
+		String defaultTrans = "Transmission: ";
+		String defaultDrive = "Drivetrain: ";
+		String defaultProgress = "Race Progress: 0/400m";
+
+		car1.setText(car1.getText().substring(0, 10));
+		car1Trans.setText(defaultTrans);
+		car1Drive.setText(defaultDrive);
 		
-		car2.setText(car2.getText().substring(0, 7));
-		car2Trans.setText(car2Trans.getText().substring(0, 14));
-		car2Drive.setText(car2Drive.getText().substring(0, 7));
+		car2.setText(car2.getText().substring(0, 10));
+		car2Trans.setText(defaultTrans);
+		car2Drive.setText(defaultDrive);
 		
 		winnerStatus.setText("Winner is: ");
-		car1StatusInfo.setText("Race Progress: 0/400m");
-		car2StatusInfo.setText("Race Progress: 0/400m");
+		car1StatusInfo.setText(defaultProgress);
+		car2StatusInfo.setText(defaultProgress);
 	}
 }

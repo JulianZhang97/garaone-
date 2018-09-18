@@ -11,38 +11,55 @@ import java.util.List;
  */
 public class CalculateRace {
 	//The quarter mile time for the car
-	private double carTime;
-	
-	//Car progress in meters (up to 400m)
-	private double progress;
+	private double quarterTime;
+
+	private double accelTime;
+
+	private double quarterSpeed;
 	
 	//Arrays detailing car progress at 100ms intervals
 	private List<Double> carRace;
 
 
-	
 	public CalculateRace(Car car){
-		this.progress = 0.0;
-		this.carTime = car.getQuarterTime();
+		//Time to complete quarter mile (400m)
+	    this.quarterTime = car.getQuarterTime();
+
+	    //Time to get to 60mph/96kph/~26.8m/s
+		this.accelTime = car.getAccel();
+
+		//Speed at quarter mile (400m) in mph
+		this.quarterSpeed = car.getQuarterSpeed();
 		
 		carRace = new ArrayList<>();
 	}
+
 	
-	public void startRace(){
-		
-		while(progress != 400){
-			double newProgress = 400/(carTime * 10);
-			if(progress + newProgress > 400){
-				progress = 400;
-			}
+	public void calculateRaceResults(){
+        //Distance vehicle travels before getting to 60mph in meters
+        double distanceTo60 = 13.4 * accelTime;
+        double averageAccelTo60 = 26.8/ accelTime;
+
+        //double distanceToQuarterFrom60 = 400 - distanceTo60;
+        double timeToQuarterFrom60 = quarterTime - accelTime;
+
+		double averageAccelAfter60 = ((quarterSpeed * 0.44704) - 26.8) / timeToQuarterFrom60;
+
+		double curVelocity = 0.0;
+		double curDistance = 0.0;
+        //Separate into 100ms intervals
+		while(curDistance < 400){
+            if(curDistance < distanceTo60){ curVelocity += averageAccelTo60 * 0.01; }
+            else{ curVelocity += averageAccelAfter60 * 0.01; }
+
+            if(curDistance + curVelocity > 400){ curDistance = 400; }
 			else{
-				progress += newProgress;
-			}	
-			carRace.add(progress);
+			    curDistance += curVelocity; }
+			carRace.add(curDistance);
 		}
 	}
 
-	public List<Double> getCarRace(){
+	public List<Double> getRaceResults(){
 		return carRace;
 	}
 }
