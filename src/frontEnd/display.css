@@ -41,12 +41,6 @@
 	-fx-border-width: 2 2 2 2;
 }
 
-.topPane{
-	-fx-background-color: 
-		linear-gradient(#457fca 0%, #5691c8 50%);
-}
+.topPane{-fx-background-color: #F0F8FF;}
 
-.bottomPane{
-	-fx-background-color: 
-		linear-gradient(#757F9A 0%, #D7DDE8 50%);
-}
+.bottomPane{-fx-background-color: #B0C4DE;}
