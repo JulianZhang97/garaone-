@@ -24,7 +24,7 @@ public class GaraOne extends Application{
 	
 	        
 	     primaryStage.setScene(scene);
-	     primaryStage.setMaximized(true);
+	     primaryStage.setMaximized(false);
 	     primaryStage.show();
 	}
 	

@@ -11,8 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,14 +53,23 @@ public class MainDisplayController extends Control{
 	Label car1StatusInfo;
 	@FXML
 	Label car2StatusInfo;
+	@FXML
+	Label car1Accel;
+	@FXML
+	Label car2Accel;
 	
 	private Car vehicle1;
 	private Car vehicle2;
 	private CarDatabase db;
-	
 	private Car winner;
-
 	private Timer t;
+
+    private final String defaultTrans = "Transmission: ";
+    private final String defaultDrive = "Drivetrain: ";
+    private final String defaultProgress = "Race Progress: 0/400m";
+    private final String defaultAccel = "0-96km/h Time: 0.0s";
+
+	private double elapsedTime;
 	
 	public void initialize() {
 		db = null;
@@ -70,33 +79,31 @@ public class MainDisplayController extends Control{
 			e1.printStackTrace();
 		}
 		db.connectDB();
-
 		initializeGUI();
 	}
 
 
 	private void initializeGUI(){
-        vehicle1 = null;
-        vehicle2 = null;
+        vehicle1 = vehicle2 = null;
 
         startButton.setOnMousePressed(e2 -> startRace());
         resetButton.setOnMousePressed(e1 -> resetRace());
 
         car1Make.setOnMousePressed((MouseEvent e) -> loadMakes(car1Make, car1Model));
         car2Make.setOnMousePressed((MouseEvent e) -> loadMakes(car2Make, car2Model));
-        car1Model.setOnMousePressed((MouseEvent e) -> loadModels(car1Make, car1Model));
-        car2Model.setOnMousePressed((MouseEvent e) -> loadModels(car2Make, car2Model));
+        car1Model.setOnMousePressed((MouseEvent e) -> loadModels(car1, car1Trans, car1Drive, car1Make, car1Model));
+        car2Model.setOnMousePressed((MouseEvent e) -> loadModels(car2, car2Trans, car2Drive, car2Make, car2Model));
 
         car1Model.valueProperty().addListener((arg0, arg1, arg2) -> {
             if(car1Make.getValue() != null && car1Model.getValue() != null){
                 vehicle1 = db.getCar(car1Make.getValue(), car1Model.getValue());
-                setCar(vehicle1, car1Make.getValue(), car1Model.getValue(), car1, car1Trans, car1Drive);
+                setCar(vehicle1, car1, car1Trans, car1Drive);
             }
         });
         car2Model.valueProperty().addListener((arg0, arg1, arg2) -> {
             if(car2Make.getValue() != null && car2Model.getValue() != null){
                 vehicle2 = db.getCar(car2Make.getValue(), car2Model.getValue());
-                setCar(vehicle2, car2Make.getValue(), car2Model.getValue(), car2, car2Trans, car2Drive);
+                setCar(vehicle2, car2, car2Trans, car2Drive);
             }
         });
         drawInitialState(car1Status);
@@ -104,8 +111,9 @@ public class MainDisplayController extends Control{
     }
 
 
-	private void setCar(Car curVehicle, String carBrand, String carName, Label carNameLabel, Label carTrans, Label carDrive){
-        carNameLabel.setText(carNameLabel.getText() + curVehicle.getYear() + " " + carBrand + " " + carName);
+	private void setCar(Car curVehicle, Label carNameLabel, Label carTrans, Label carDrive){
+        carNameLabel.setText(carNameLabel.getText() + curVehicle.getYear() + " " +
+                curVehicle.getMake() + " " + curVehicle.getModel());
         carTrans.setText(carTrans.getText() + curVehicle.getTrans());
         carDrive.setText(carDrive.getText() + curVehicle.getDrive());
     }
@@ -117,7 +125,11 @@ public class MainDisplayController extends Control{
 	}
 
 
-	private void loadModels(ComboBox<String> carMake, ComboBox<String> carModel) {
+	private void loadModels(Label carName, Label carTrans, Label carDrive, ComboBox<String> carMake, ComboBox<String> carModel) {
+	        carName.setText(carName.getText().substring(0, 11));
+	        carTrans.setText(defaultTrans);
+            carDrive.setText(defaultDrive);
+
 			carModel.getItems().clear();
 			carModel.getItems().addAll(db.displayModels(carMake.getValue()));
 	}
@@ -133,73 +145,75 @@ public class MainDisplayController extends Control{
 
 	private void startRace() {
 		if(vehicle1 == null || vehicle2 == null){
-			try {
-				throw new Exception("Cars cannot be null!");
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Must select two cars to race!", ButtonType.OK);
+            alert.setHeaderText("No car selected!");
+            alert.showAndWait();
 		}
-		
-		GraphicsContext gc = car1Status.getGraphicsContext2D();
-		GraphicsContext gc2 = car2Status.getGraphicsContext2D();
-		
-		CalculateRace car1RaceResults = new CalculateRace(vehicle1);
-        car1RaceResults.calculateRaceResults();
-		List<Double> car1Results = car1RaceResults.getRaceResults();
-		
-		CalculateRace car2RaceResults = new CalculateRace(vehicle2);
-		car2RaceResults.calculateRaceResults();
-		List<Double> car2Results = car2RaceResults.getRaceResults();
-		
-		Iterator<Double> car1Check = car1Results.listIterator();
-		Iterator<Double> car2Check = car2Results.listIterator(); 
-		
-		t = new Timer();
-		t.scheduleAtFixedRate(new TimerTask(){
-			public void run(){
-			    car1Make.setDisable(true);
-			    car1Model.setDisable(true);
-			    car2Make.setDisable(true);
-			    car2Model.setDisable(true);
-			    startButton.setDisable(true);
+		else{
+            car1Make.setDisable(true);
+            car1Model.setDisable(true);
+            car2Make.setDisable(true);
+            car2Model.setDisable(true);
+            startButton.setDisable(true);
 
-                if(car1Check.hasNext()){ drawRaceProgress(car1Check, gc, car1StatusInfo);}
-                if(car2Check.hasNext()){ drawRaceProgress(car2Check, gc2, car2StatusInfo);}
+            CalculateRace car1RaceCalculator = new CalculateRace(vehicle1);
+            CalculateRace car2RaceCalculator = new CalculateRace(vehicle2);
+            GraphicsContext gc = car1Status.getGraphicsContext2D();
+            GraphicsContext gc2 = car2Status.getGraphicsContext2D();
 
-				
-				//If car 1 wins, set its winner status
-				if(!car1Check.hasNext() && car2Check.hasNext()){winner = vehicle1; }
-				//Else if car 2 wins, set its winner status
-				if(car1Check.hasNext() && !car2Check.hasNext()){ winner = vehicle2; }
-				
-				if(!car1Check.hasNext() && !car2Check.hasNext()){
-					t.cancel();
-					Platform.runLater(() ->
-                    {
-                        String winnerInfo =  winner.getMake() + " " + winner.getModel() + " " + winner.getQuarterTime() + " seconds @ " + winner.getQuarterSpeed() + " mph";
-                        winnerStatus.setText(winnerStatus.getText() + " " + winnerInfo);
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, winnerInfo, ButtonType.OK);
-                        alert.setHeaderText(winner.getMake() + " " + winner.getModel() + " has won!");
-                        alert.showAndWait();
-                    });
-				}
-				}}, 0, 100);
+            car1RaceCalculator.calculateRaceResults();
+            car2RaceCalculator.calculateRaceResults();
+            Iterator<Double> car1Check = car1RaceCalculator.getRaceResults().listIterator();
+            Iterator<Double> car2Check = car2RaceCalculator.getRaceResults().listIterator();
+
+            t = new Timer();
+            t.scheduleAtFixedRate(new TimerTask(){
+                public void run(){
+                    incrementTimer();
+
+                    if(car1Check.hasNext()){
+                        updateRaceProgress(car1RaceCalculator, car1Check, gc, car1StatusInfo, car1Accel);}
+                    if(car2Check.hasNext()){ updateRaceProgress(car2RaceCalculator, car2Check, gc2, car2StatusInfo, car2Accel);}
+                    //If car 1 wins, set its winner status
+                    if(!car1Check.hasNext() && car2Check.hasNext()){winner = vehicle1; }
+                    //Else if car 2 wins, set its winner status
+                    if(car1Check.hasNext() && !car2Check.hasNext()){ winner = vehicle2; }
+                    //If a car won
+                    if(!car1Check.hasNext() && !car2Check.hasNext()){
+                        t.cancel();
+                        Platform.runLater(() -> showWinner()); }
+                }}, 0, 100);
+        }
 	}
 
 
-	private void drawRaceProgress(Iterator<Double> carCheck, GraphicsContext gc, Label carStatusInfo){
+	private void updateRaceProgress(CalculateRace raceInfo, Iterator<Double> carCheck, GraphicsContext gc, Label carStatusInfo, Label carAccel){
 	    Double nextPos = carCheck.next();
         gc.setFill(Color.GREEN);
         gc.fillRect(0, 0, nextPos * 2, 50);
+
         Platform.runLater(() -> carStatusInfo.setText("Race Progress: " + nextPos.intValue() + "/400m"));
+        if(nextPos <= raceInfo.getDistanceTo60()){
+            Platform.runLater(() -> carAccel.setText("0-96km/h Time: " +
+                    new DecimalFormat("#.0").format(elapsedTime) + "s"));
+        }
     }
 
 
-    //TODO: Fix this to be less buggy
+    private void showWinner(){
+        String winnerInfo =  winner.getMake() + " " + winner.getModel() + "\n" + winner.getQuarterTime() + " seconds @ " + winner.getQuarterSpeed() + " mph";
+        winnerStatus.setText(winnerStatus.getText() + " " + winnerInfo);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, winnerInfo, ButtonType.OK);
+        alert.setHeaderText(winner.getMake() + " " + winner.getModel() + " has won!");
+        alert.showAndWait();
+    }
+
+
 	private void resetRace() {
 	    if(t != null){
 	        t.cancel();
         }
+        elapsedTime = 0.0;
 
         car1Make.setDisable(false);
         car1Model.setDisable(false);
@@ -214,27 +228,28 @@ public class MainDisplayController extends Control{
 		car1Model.getItems().clear();
 		car2Make.getItems().clear();
 		car2Model.getItems().clear();
-		vehicle1 = null;
-		vehicle2 = null;
-		initialSetup();
+
+		vehicle1 = vehicle2 = null;
+		resetLabels();
 	}
 
 
-	private void initialSetup(){
-		String defaultTrans = "Transmission: ";
-		String defaultDrive = "Drivetrain: ";
-		String defaultProgress = "Race Progress: 0/400m";
-
-		car1.setText(car1.getText().substring(0, 10));
+	private void resetLabels(){
+		car1.setText(car1.getText().substring(0, 11));
 		car1Trans.setText(defaultTrans);
 		car1Drive.setText(defaultDrive);
-		
-		car2.setText(car2.getText().substring(0, 10));
+		car1Accel.setText(defaultAccel);
+
+		car2.setText(car2.getText().substring(0, 11));
 		car2Trans.setText(defaultTrans);
 		car2Drive.setText(defaultDrive);
-		
+        car2Accel.setText(defaultAccel);
+
 		winnerStatus.setText("Winner is: ");
 		car1StatusInfo.setText(defaultProgress);
 		car2StatusInfo.setText(defaultProgress);
 	}
+
+
+    private void incrementTimer(){ elapsedTime += 0.1; }
 }

@@ -25,6 +25,15 @@
 	-fx-font-family: "Segoe UI Light";
 }
 
+.carInfo{
+	-fx-background-color:
+			transparent;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 0 0 0;
+}
+
 
 .splitPane{
 	-fx-background-color: #ffffff;

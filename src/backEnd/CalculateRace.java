@@ -12,10 +12,10 @@ import java.util.List;
 public class CalculateRace {
 	//The quarter mile time for the car
 	private double quarterTime;
-
 	private double accelTime;
-
 	private double quarterSpeed;
+
+	private double distanceTo60;
 	
 	//Arrays detailing car progress at 100ms intervals
 	private List<Double> carRace;
@@ -37,7 +37,7 @@ public class CalculateRace {
 	
 	public void calculateRaceResults(){
         //Distance vehicle travels before getting to 60mph in meters
-        double distanceTo60 = 13.4 * accelTime;
+        distanceTo60 = 13.4 * accelTime;
         double averageAccelTo60 = 26.8/ accelTime;
 
         //double distanceToQuarterFrom60 = 400 - distanceTo60;
@@ -59,7 +59,11 @@ public class CalculateRace {
 		}
 	}
 
+
 	public List<Double> getRaceResults(){
 		return carRace;
 	}
+
+
+	public Double getDistanceTo60(){return distanceTo60; }
 }

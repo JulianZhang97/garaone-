@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@display.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.MainDisplayController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" styleClass="root" stylesheets="@display.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontEnd.MainDisplayController">
    <center>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" styleClass="splitPane" BorderPane.alignment="CENTER">
         <items>
@@ -30,19 +31,31 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
+                  <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" styleClass="carInfo" GridPane.rowIndex="1">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="car1Trans" alignment="CENTER_RIGHT" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Transmission: " textAlignment="CENTER" wrapText="false" AnchorPane.rightAnchor="10.0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane>
+                           <children>
+                              <Label fx:id="car1Drive" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Drivetrain: " textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="10.0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
                   <Label fx:id="car1" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="infoTitle" text="Vehicle 1: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font size="36.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="car1Trans" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Transmission: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="car1Drive" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Drivetrain: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
                      </font>
                   </Label>
                   <Label fx:id="car1StatusInfo" styleClass="info" text="Race Progress: 0/400m" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
@@ -51,6 +64,11 @@
                      </font>
                   </Label>
                   <Canvas fx:id="car1Status" height="50.0" width="800.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Label fx:id="car1Accel" styleClass="info" text="0-96 km/h Time: 0.0s" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
             <GridPane styleClass="bottomPane">
@@ -70,22 +88,39 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="car2Trans" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Transmission: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="car2Drive" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Drivetrain: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
+                  <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" styleClass="carInfo" GridPane.rowIndex="1">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="car2Trans" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Transmission: " textAlignment="CENTER" wrapText="false" AnchorPane.rightAnchor="10.0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="car2Drive" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Drivetrain: " textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="10.0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
                   <Label fx:id="car2StatusInfo" styleClass="info" text="Race Progress: 0/400m" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
                   <Canvas fx:id="car2Status" height="50.0" width="800.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Label fx:id="car2Accel" styleClass="info" text="0-96 km/h Time: 0.0s" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
         </items>
@@ -120,7 +155,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <VBox alignment="CENTER" prefHeight="113.0" prefWidth="180.0" spacing="5.0">
+                  <VBox alignment="CENTER" prefHeight="113.0" prefWidth="180.0" spacing="3.0">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="sideMenu" text="Vehicle 1 Selector:">
                            <VBox.margin>
@@ -134,7 +169,7 @@
                         <ComboBox fx:id="car1Model" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Select Model" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" spacing="5.0">
+                  <VBox alignment="CENTER" spacing="3.0">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="180.0" styleClass="sideMenu" text="Vehicle 2 Selector :">
                            <VBox.margin>
