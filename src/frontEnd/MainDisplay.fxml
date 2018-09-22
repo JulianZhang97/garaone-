@@ -35,7 +35,7 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
-                              <Label fx:id="car1Trans" alignment="CENTER_RIGHT" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Transmission: " textAlignment="CENTER" wrapText="false" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="car1GearBox" alignment="CENTER_RIGHT" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Transmission: " textAlignment="CENTER" wrapText="false" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -44,7 +44,7 @@
                         </AnchorPane>
                       <AnchorPane>
                            <children>
-                              <Label fx:id="car1Drive" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Drivetrain: " textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="10.0">
+                              <Label fx:id="car1DriveTrain" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="info" text="Drivetrain: " textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -53,18 +53,18 @@
                         </AnchorPane>
                     </items>
                   </SplitPane>
-                  <Label fx:id="car1" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="infoTitle" text="Vehicle 1: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label fx:id="car1Name" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="infoTitle" text="Vehicle 1: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="car1StatusInfo" styleClass="info" text="Race Progress: 0/400m" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <Label fx:id="car1RaceProgress" styleClass="info" text="Race Progress: 0/400m" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
                   <Canvas fx:id="car1Status" height="50.0" width="800.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Label fx:id="car1Accel" styleClass="info" text="0-96 km/h Time: 0.0s" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <Label fx:id="car1AccelerationTime" styleClass="info" text="0-96 km/h Time: 0.0s" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -83,7 +83,7 @@
                   <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="50.0" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <Label fx:id="car2" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="infoTitle" text="Vehicle 2: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label fx:id="car2Name" alignment="CENTER" minWidth="60.0" prefWidth="-1.0" style="&#10;" styleClass="infoTitle" text="Vehicle 2: " textAlignment="CENTER" wrapText="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -110,13 +110,13 @@
                         </AnchorPane>
                     </items>
                   </SplitPane>
-                  <Label fx:id="car2StatusInfo" styleClass="info" text="Race Progress: 0/400m" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <Label fx:id="car2RaceProgress" styleClass="info" text="Race Progress: 0/400m" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
                   <Canvas fx:id="car2Status" height="50.0" width="800.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Label fx:id="car2Accel" styleClass="info" text="0-96 km/h Time: 0.0s" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <Label fx:id="car2AccelerationTime" styleClass="info" text="0-96 km/h Time: 0.0s" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -165,8 +165,8 @@
                               <Font name="Segoe UI" size="16.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="car1Make" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Select Make" />
-                        <ComboBox fx:id="car1Model" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Select Model" />
+                        <ComboBox fx:id="car1MakeSelector" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Select Make" />
+                        <ComboBox fx:id="car1ModelSelector" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Select Model" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" spacing="3.0">
@@ -179,8 +179,8 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="car2Make" maxWidth="1.7976931348623157E308" promptText="Select Make" />
-                        <ComboBox fx:id="car2Model" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Select Model" />
+                        <ComboBox fx:id="car2MakeSelector" maxWidth="1.7976931348623157E308" promptText="Select Make" />
+                        <ComboBox fx:id="car2ModelSelector" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Select Model" />
                      </children>
                   </VBox>
                   <HBox alignment="BOTTOM_CENTER" fillHeight="false" spacing="5.0">

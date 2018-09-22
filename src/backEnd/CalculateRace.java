@@ -10,60 +10,74 @@ import java.util.List;
  *
  */
 public class CalculateRace {
-	//The quarter mile time for the car
 	private double quarterTime;
 	private double accelTime;
 	private double quarterSpeed;
-
-	private double distanceTo60;
+	private double distanceTo96;
 	
 	//Arrays detailing car progress at 100ms intervals
-	private List<Double> carRace;
+	private List<Double> carRaceDistances;
 
 
+    /**
+     * Class for calculating the race progress of a vehicle given its acceleration information
+     *
+     * @param car The car to calculate race performance for
+     */
 	public CalculateRace(Car car){
 		//Time to complete quarter mile (400m)
 	    this.quarterTime = car.getQuarterTime();
-
 	    //Time to get to 60mph/96kph/~26.8m/s
-		this.accelTime = car.getAccel();
-
+		this.accelTime = car.getAcceleration();
 		//Speed at quarter mile (400m) in mph
 		this.quarterSpeed = car.getQuarterSpeed();
 		
-		carRace = new ArrayList<>();
+		carRaceDistances = new ArrayList<>();
 	}
 
-	
+
+    /**
+     * Calculates average vehicle acceleration to 96km/h (60mph) and beyond 96km/h (60mph) to 400 meters and uses these
+     * pieces of information to calculate estimated distances covered by the vehicle from race start to completion
+     * in 100ms increments, and sets the list accordingly.
+     *
+     */
 	public void calculateRaceResults(){
         //Distance vehicle travels before getting to 60mph in meters
-        distanceTo60 = 13.4 * accelTime;
+        distanceTo96 = 13.4 * accelTime;
+
         double averageAccelTo60 = 26.8/ accelTime;
-
-        //double distanceToQuarterFrom60 = 400 - distanceTo60;
         double timeToQuarterFrom60 = quarterTime - accelTime;
-
 		double averageAccelAfter60 = ((quarterSpeed * 0.44704) - 26.8) / timeToQuarterFrom60;
 
 		double curVelocity = 0.0;
 		double curDistance = 0.0;
         //Separate into 100ms intervals
 		while(curDistance < 400){
-            if(curDistance < distanceTo60){ curVelocity += averageAccelTo60 * 0.01; }
+            if(curDistance < distanceTo96){ curVelocity += averageAccelTo60 * 0.01; }
             else{ curVelocity += averageAccelAfter60 * 0.01; }
 
             if(curDistance + curVelocity > 400){ curDistance = 400; }
 			else{
 			    curDistance += curVelocity; }
-			carRace.add(curDistance);
+			carRaceDistances.add(curDistance);
 		}
 	}
 
 
+    /**
+     * Gets the complete race results of a vehicle as list of distances in 100ms increments
+     *
+     * @return The race results as a list of meter distances
+     */
 	public List<Double> getRaceResults(){
-		return carRace;
+		return carRaceDistances;
 	}
 
-
-	public Double getDistanceTo60(){return distanceTo60; }
+	/**
+	 * Getter for the distance (in meters) this vehicle takes to reach 96km/h (60mph)
+	 *
+	 * @return The distance (in meters) for this vehicle to get to speed
+	 */
+	public Double getDistanceTo96(){return distanceTo96; }
 }

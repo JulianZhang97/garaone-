@@ -1,6 +1,15 @@
 package backEnd;
 
-
+/**
+ * The class representing a specific vehicle, containing all of its
+ * specifications and performance data for both display and
+ * race calculating purposes
+ *
+ * NOTE: The static class carBuilder appears here due to this
+ * class utilization of the Builder pattern to minimize data
+ * entry errors during initialization
+ *
+ */
 public class Car {
 	
 	public static class carBuilder{
@@ -10,7 +19,7 @@ public class Car {
 		private Integer year;
 		private String drive;
 		private String transmission;
-		private double accel;
+		private double acceleration;
 		private double quarterMileTime;
 		private double quarterMileSpeed;
 		
@@ -39,7 +48,7 @@ public class Car {
 			return this;
 		}
 		carBuilder carAccel(double accel){
-			this.accel = accel;
+			this.acceleration = accel;
 			return this;
 		}
 		carBuilder carqMileTime(double quarterMileTime){
@@ -61,7 +70,7 @@ public class Car {
 	private Integer year;
 	private String drive;
 	private String transmission;
-	private double accel;
+	private double acceleration;
 	private double quarterMileTime;
 	private double quarterMileSpeed;
 	
@@ -72,11 +81,11 @@ public class Car {
 		this.year = builder.year;
 		this.drive = builder.drive;
 		this.transmission = builder.transmission;
-		this.accel = builder.accel;
+		this.acceleration = builder.acceleration;
 		this.quarterMileTime = builder.quarterMileTime;
 		this.quarterMileSpeed = builder.quarterMileSpeed;
 	}
-	
+
 	public Integer getId(){
 		return this.id;
 	}
@@ -95,8 +104,8 @@ public class Car {
 	public String getTrans(){
 		return this.transmission;
 	}
-	public double getAccel(){
-		return this.accel;
+	public double getAcceleration(){
+		return this.acceleration;
 	}
 	public double getQuarterTime(){
 		return this.quarterMileTime;

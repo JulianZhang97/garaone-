@@ -20,11 +20,10 @@ public class GaraOne extends Application{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		assert root != null;
 		Scene scene = new Scene(root);
-	
-	        
+
 	     primaryStage.setScene(scene);
-	     primaryStage.setMaximized(false);
 	     primaryStage.show();
 	}
 	
